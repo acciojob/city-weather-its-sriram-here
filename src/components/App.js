@@ -1,8 +1,7 @@
-
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_KEY = "904e49ce83bee9cb927e53bd3d2efdb8";
+const API_KEY = "904e49ce83bee9cb927e53bd3d2efdb8"; 
 
 function App() {
   const [query, setQuery] = useState("");
@@ -10,15 +9,17 @@ function App() {
 
   const search = async (e) => {
     if (e.key === "Enter") {
-      const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${API_KEY}`
-      );
-      setWeather(response.data);
-      setQuery("");
+      try {
+        const response = await axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${API_KEY}&units=metric`
+        );
+        setWeather(response.data);
+        setQuery("");
+      } catch (error) {
+        alert("City not found!");
+      }
     }
   };
-
-  const kelvinToFahrenheit = (k) => ((k - 273.15) * 9) / 5 + 32;
 
   return (
     <div className="app">
@@ -34,12 +35,12 @@ function App() {
         <div className="weather">
           <div className="city">{weather.name}</div>
           <div className="temperature">
-            {Math.round(kelvinToFahrenheit(weather.main.temp))}°F
+            {Math.round(weather.main.temp)}°C
           </div>
           <div className="description">{weather.weather[0].description}</div>
           <div className="icon">
             <img
-              src={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
+              src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
               alt={weather.weather[0].description}
             />
           </div>
