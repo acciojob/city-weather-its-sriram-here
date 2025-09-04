@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_KEY = "904e49ce83bee9cb927e53bd3d2efdb8"; 
+const API_KEY = "904e49ce83bee9cb927e53bd3d2efdb8"; // your key
 
 function App() {
   const [query, setQuery] = useState("");
@@ -16,7 +16,7 @@ function App() {
         setWeather(response.data);
         setQuery("");
       } catch (error) {
-        alert("City not found!");
+        setWeather({ error: "City not found!" });
       }
     }
   };
@@ -31,12 +31,10 @@ function App() {
         onChange={(e) => setQuery(e.target.value)}
         onKeyPress={search}
       />
-      {weather && (
+      {weather && !weather.error && (
         <div className="weather">
           <div className="city">{weather.name}</div>
-          <div className="temperature">
-            {Math.round(weather.main.temp)}°C
-          </div>
+          <div className="temperature">{Math.round(weather.main.temp)}°C</div>
           <div className="description">{weather.weather[0].description}</div>
           <div className="icon">
             <img
@@ -44,6 +42,11 @@ function App() {
               alt={weather.weather[0].description}
             />
           </div>
+        </div>
+      )}
+      {weather && weather.error && (
+        <div className="weather">
+          <p>{weather.error}</p>
         </div>
       )}
     </div>
