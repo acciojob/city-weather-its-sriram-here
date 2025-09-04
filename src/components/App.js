@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_KEY = "e467712b257e418838be97cc881a71de";
+const API_KEY = "2d64bde8406c2821a3381ec1a978dc5d";
 
 function App() {
   const [query, setQuery] = useState("");
